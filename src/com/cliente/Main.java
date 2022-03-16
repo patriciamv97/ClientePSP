@@ -14,51 +14,34 @@ public class Main {
         // Creando socket cliente
 
         Socket cliente = new Socket();
-
-        // 1) Ao arrancar solicitarase o enderezo IP e o porto de conexión do servidor.
-        System.out.println("Introduce tu IP :");
-        String ip = sc.nextLine();
-        System.out.println("Introduce el puerto por el que desea conectarse al servidor :");
-        String puerto = sc.nextLine();
-        InetSocketAddress addr = new InetSocketAddress(ip, Integer.parseInt(puerto));
+        InetSocketAddress addr = new InetSocketAddress("localhost", 2001);
 
         cliente.connect(addr);
 
         InputStream entrada = cliente.getInputStream();
         OutputStream salida = cliente.getOutputStream();
 
-        //Len envio la IP
-        salida.write(ip.getBytes());
-        //Le envio el puerto
-        salida.write(puerto.getBytes());
+        Interfaz chat = new Interfaz(salida);
+        chat.setVisible(true);
+        String nick =chat.nick.getText();
+        salida.write(nick.getBytes());
+        byte [] mensaje = new byte[140];
+        entrada.read(mensaje);
+        chat.campoChat.setText(new String(mensaje).trim()+"\n");
+        Lectura lectura = new Lectura(entrada, chat);
+        lectura.start();
+
+
+
 
 
         //2) A continuación solicitarase o nickname que se empregará para identificar as mensaxes do usuario, e se realizará a conexión co servidor.
 
-        System.out.println("Introduce tu nickname :");
-        String nickname = sc.nextLine();
 
 
-        byte[] ms;
-        String mensaje = "";
-
-        while (!mensaje.equalsIgnoreCase("fin")) {
-            mensaje = nickname + ": " + sc.nextLine();
-            System.out.println("Mensaje enviado ");
-            salida.write(mensaje.getBytes());
-            ms = new byte[140];
-            entrada.read(ms);
-            if (new String(ms).trim().equalsIgnoreCase("fin")) {
-                break;
-            }
-            System.out.println("Servidor: " + new String(ms).trim());
-
-
-        }
-
-        System.out.println("Cerrando el socket cliente");
-        cliente.close();
-        System.out.println("Terminado");
+        //System.out.println("Cerrando el socket cliente");
+        //cliente.close();
+        //System.out.println("Terminado");
 
 
     }
