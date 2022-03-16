@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.lang.Thread.sleep;
+
 /**
  *
  * @author Usuario
@@ -146,6 +148,15 @@ public class Interfaz extends javax.swing.JFrame {
         String nickname = nick.getText();
         String mensaje = nickname + ": " + campo1.getText();
         salida.write(mensaje.getBytes());
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if(campo1.getText().equals("/bye")){
+            salida.close();
+            System.exit(0);
+        }
         System.out.println("Mensaje enviado ");
         campo1.setText("");
 

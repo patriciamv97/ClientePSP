@@ -22,11 +22,12 @@ public class Main {
         salida.write(nick.getBytes());
         byte [] conectado = new byte[140];
         entrada.read(conectado);
+        System.out.println(new String(conectado).trim());
         Interfaz chat = new Interfaz(salida);
         chat.setVisible(true);
         chat.nick.setText(nick);
         chat.campoChat.setText(new String(conectado).trim()+"\n");
-        Lectura lectura = new Lectura(entrada, chat);
+        Lectura lectura = new Lectura(entrada, chat, cliente);
         lectura.start();
 
     }
