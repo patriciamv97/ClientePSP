@@ -21,7 +21,7 @@ public class Interfaz extends javax.swing.JFrame {
     /**
      * Creates new form FrameCliente
      */
-    public Interfaz(OutputStream salida) {
+    public Interfaz(OutputStream salida) throws IOException {
         initComponents();
         this.salida = salida;
     }
@@ -147,6 +147,7 @@ public class Interfaz extends javax.swing.JFrame {
         String mensaje = nickname + ": " + campo1.getText();
         salida.write(mensaje.getBytes());
         System.out.println("Mensaje enviado ");
+        campo1.setText("");
 
     }
 
