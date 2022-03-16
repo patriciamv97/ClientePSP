@@ -27,7 +27,7 @@ public class Main {
         salida.write(nick.getBytes());
         byte [] mensaje = new byte[140];
         entrada.read(mensaje);
-        chat.campoChat.setText(new String(mensaje).trim()+"\n");
+        chat.campoChat.append(new String(mensaje).trim()+"\n");
         Lectura lectura = new Lectura(entrada, chat);
         lectura.start();
 
